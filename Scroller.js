@@ -166,8 +166,11 @@ const Scroller = class {
     up (e) {
         e.preventDefault()
         e.stopPropagation()
-        this.#pressed = DEFAULT_PRESSED
         this.endTrackingVelocity()
+        if (!this.#pressed) {
+            return this.#pressed = DEFAULT_PRESSED
+        }
+        this.#pressed = DEFAULT_PRESSED
         if (Math.abs(this.#velocity) < MIN_VELOCITY) {
             return
         }
@@ -191,6 +194,8 @@ const Scroller = class {
         container.addEventListener('touchmove', move, false)
         container.addEventListener('mouseup', up, false)
         container.addEventListener('touchend', up, false)
+        container.addEventListener('mouseleave', up, false)
+        container.addEventListener('touchcancel', up, false)
     }
             
     unbindEvent () {
@@ -204,6 +209,8 @@ const Scroller = class {
         container.removeEventListener('touchmove', move, false)
         container.removeEventListener('mouseup', up, false)
         container.removeEventListener('touchend', up, false)
+        container.removeEventListener('mouseleave', up, false)
+        container.removeEventListener('touchcancel', up, false)
     }  
     
 }

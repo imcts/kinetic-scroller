@@ -31,10 +31,6 @@ aside {
     padding-left: 2em;
 }
 
-.smooth {
-  transition: all 1s ease-out;
-}
-
 .large-text {
     font-size: 120%;
 }

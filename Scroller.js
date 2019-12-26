@@ -6,6 +6,8 @@ const DEFAULT_VELOCITY = 0
 const DEFAULT_TRACKER = null
 const TRACKING_TIME = 50
 const MIN_VELOCITY = 0.3
+const MIN_ANIMATION_DISTANCE = 0.5
+const SCROLL_TIME = 325
 const INERTIAL_SCROLL_FACTOR = 0.8
 const INERTIAL_ACCELERATION = 9
 const INDICATOR_RELATIVE_POSITION = 30
@@ -23,7 +25,6 @@ const Scroller = class {
     #lastTop
     #velocity
     #lastTime
-    #startedAnimationTime
     #tracker
     #handler
     
@@ -59,13 +60,11 @@ const Scroller = class {
         this.#lastTop = DEFAULT_POSITION
         this.#velocity = DEFAULT_VELOCITY
         this.#lastTime = DEFAULT_TIME
-        this.#startedAnimationTime = DEFAULT_TIME
         this.#tracker = DEFAULT_TRACKER
         this.#handler = new Map()
             .set('down', this.down.bind(this))
             .set('move', this.move.bind(this))
             .set('up', this.up.bind(this))
-        
         this.bindEvent()
     }
     
@@ -79,18 +78,13 @@ const Scroller = class {
     down (e) {
         e.preventDefault()
         e.stopPropagation()
-        const now = Date.now()
-        if (now - this.#startedAnimationTime < ANIMATION_DURATION) {
-            this.scroll(-parseInt(window.getComputedStyle(this.#element).top))
-        }
-        this.#element.classList.remove(SMOOTH_CLASS_NAME)
-        this.#indicator.classList.remove(SMOOTH_CLASS_NAME)
         const {y} = Scroller.getPosition(e)
         this.#pressed = !DEFAULT_PRESSED
         this.#startedY = y
         this.#velocity = DEFAULT_VELOCITY
-        this.#lastTime = now
+        this.#lastTime = Date.now()
         this.#lastTop = this.#top
+        this.endTrackingVelocity()
         this.startTrackingVelocity()
     }
     
@@ -154,14 +148,6 @@ const Scroller = class {
     /**
         1. 터치 트랙킹을 종료 합니다.
         2. 최종 속력이 MIN_VELOCITY 보다 낮은 경우 관성 스크롤을 사용하지 않습니다.
-        3. 관성 스크롤의 시작된 시간을 startedAnimationTime에 저장 합니다.
-        4. element의 총 높이를 INERTIAL_ACCELERATION로 나눠서 스크롤할 거리값을 inertialDistance 저장 합니다.
-        5. inertialDistance에 속력을 곱하여 속력에 따라 거리가 결정되게 합니다. 
-        6. INERTIAL_SCROLL_FACTOR를 곱하여 스크롤의 관성을 조절 하여 tunedDistance에 저장 합니다. 
-            - INERTIAL_SCROLL_FACTOR를 값이 0에 수렴할수록 스크롤이 무뎌집니다.
-        7. 현재 top의 위치에 이동할 거리 tunedDistance를 더하여 destination에 저장 합니다.
-        7. transition을 위하여 smooth class를 추가 합니다.
-        8. #element를 스크롤 합니다.
     */
     up (e) {
         e.preventDefault()
@@ -174,15 +160,44 @@ const Scroller = class {
         if (Math.abs(this.#velocity) < MIN_VELOCITY) {
             return
         }
-        this.#startedAnimationTime = Date.now()
+        this.animateInertialScroll()
+    }
+            
+    /**
+        @description:
+        inertialDistance: 총 높이를 관성 가속도로 나눈 값입니다. 관성 스크롤을 할 총 거리 입니다.
+        tunedDistance: 관성 거리에 속력만큼 가감 합니다. 그 후 관성 지수를 곱하여 최종 거리를 조절 합니다.
+            - INERTIAL_SCROLL_FACTOR를 값이 0에 수렴할수록 스크롤이 무뎌집니다.
+        destination: 현재 top의 위치에 가야할 거리를 더한 최종 목적지 입니다.
+        
+        1. 경과 시간을 구하고 elapsed에 저장합니다.
+        2. 최종 목적지인 destination에서 매번 감소해야하는 값을 구합니다.
+            - tunedDistance(최종 관성 거리)를 음수로 만듭니다. 
+            - 지수적 감쇠함수에 경과 시간을 주입하여 점차적으로 0에 수렴하게 만들어 감속 시킵니다.
+                - https://en.wikipedia.org/wiki/Exponential_decay
+            - 시간 상수 SCROLL_TIME은 IOS 스크롤 표준 시간을 따릅니다. 
+                - https://developer.apple.com/documentation/uikit/uiscrollview#/apple_ref/doc/c_ref/UIScrollViewDecelerationRateNormal
+            - 두 값을 곱하여 실제 목적지인 destination에서 차감한 거리만큼 스크롤 합니다.
+    */
+    animateInertialScroll () {
         const inertialDistance = this.#element.offsetHeight / INERTIAL_ACCELERATION 
         const tunedDistance = INERTIAL_SCROLL_FACTOR * this.#velocity * inertialDistance
         const destination = Math.round(this.#top + tunedDistance)
-        this.#element.classList.add(SMOOTH_CLASS_NAME)
-        this.#indicator.classList.add(SMOOTH_CLASS_NAME)
-        this.scroll(destination)
+        const f = () => {
+            if (this.#pressed) {
+                return
+            }
+            const elapsed = Date.now() - this.#lastTime;
+            const distance = -tunedDistance * Math.exp(-elapsed / SCROLL_TIME)
+            if (Math.abs(distance) < MIN_ANIMATION_DISTANCE) {
+                return
+            }
+            this.scroll(destination + distance)
+            requestAnimationFrame(f)
+        }
+        requestAnimationFrame(f)
     }
-    
+            
     bindEvent () {
         const container = this.#container
         const down = this.#handler.get('down')

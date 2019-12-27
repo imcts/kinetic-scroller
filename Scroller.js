@@ -1,4 +1,3 @@
-const ANIMATION_DURATION = 1000
 const DEFAULT_PRESSED = false
 const DEFAULT_TIME = 0
 const DEFAULT_POSITION = 0
@@ -11,7 +10,6 @@ const SCROLL_TIME = 325
 const INERTIAL_SCROLL_FACTOR = 0.8
 const INERTIAL_ACCELERATION = 9
 const INDICATOR_RELATIVE_POSITION = 30
-const SMOOTH_CLASS_NAME = 'smooth'
 
 const Scroller = class {
     #container

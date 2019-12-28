@@ -5,7 +5,7 @@ const DEFAULT_VELOCITY = 0
 const DEFAULT_TRACKER = null
 const TRACKING_TIME = 50
 const MIN_VELOCITY = 0.3
-const MIN_ANIMATION_DISTANCE = 0.5
+const MIN_ANIMATION_DISTANCE = 2.2
 const SCROLL_TIME = 325
 const INERTIAL_SCROLL_FACTOR = 0.8
 const INERTIAL_ACCELERATION = 9
@@ -177,7 +177,7 @@ const Scroller = class {
             - 두 값을 곱하여 실제 목적지인 destination에서 차감한 거리만큼 스크롤 합니다.
     */
     animateInertialScroll () {
-        const ELEMENT_HEIGHT = 45 // 동적으로 변경될 수 있도록 구현.
+        const ELEMENT_HEIGHT = parseInt(document.querySelector('tr').offsetHeight)
         let destination = this.#top // 기본적으로 목적지는 탑이다.
         let tunedDistance // 추가적인 거리는 아직 미정이다.
         if (Math.abs(this.#velocity) > MIN_VELOCITY) { // 애니메이션이 필요한 경우라면

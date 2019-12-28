@@ -160,8 +160,10 @@ const Scroller = class {
             
     /**
         @description:
-        inertialDistance: 총 높이를 관성 가속도로 나눈 값입니다. 관성 스크롤을 할 총 거리 입니다.
-        tunedDistance: 관성 거리에 속력만큼 가감 합니다. 그 후 관성 지수를 곱하여 최종 거리를 조절 합니다.
+        inertialDistance: 총 높이를 관성 가속도로 나눈 값입니다. 관성 스크롤을 수행할 가장 큰 거리 값 입니다.
+        tunedDistance: 실제로 관성 스크롤할 최종 거리 입니다.
+            - 관성스크롤이 있는경우: 관성 거리에 속력만큼 가감 합니다. 그 후 관성 지수를 곱하여 최종 거리를 조절 합니다.
+            - 관성스크롤이 없는경우: 최종 목적지에서 기존 top의 위치를 제거한 값이 실제 움직여야 할 거리 입니다.
             - INERTIAL_SCROLL_FACTOR를 값이 0에 수렴할수록 스크롤이 무뎌집니다.
         destination: 현재 top의 위치에 가야할 거리를 더한 최종 목적지 입니다.
         
@@ -175,12 +177,16 @@ const Scroller = class {
             - 두 값을 곱하여 실제 목적지인 destination에서 차감한 거리만큼 스크롤 합니다.
     */
     animateInertialScroll () {
-        if (Math.abs(this.#velocity) < MIN_VELOCITY) {
-            return
+        const ELEMENT_HEIGHT = 45 // 동적으로 변경될 수 있도록 구현.
+        let destination = this.#top // 기본적으로 목적지는 탑이다.
+        let tunedDistance // 추가적인 거리는 아직 미정이다.
+        if (Math.abs(this.#velocity) > MIN_VELOCITY) { // 애니메이션이 필요한 경우라면
+            const inertialDistance = this.#element.offsetHeight / INERTIAL_ACCELERATION
+            tunedDistance = INERTIAL_SCROLL_FACTOR * this.#velocity * inertialDistance
+            destination += tunedDistance // 목적지 + 추가적인 거리를 넣는다.
         }
-        const inertialDistance = this.#element.offsetHeight / INERTIAL_ACCELERATION 
-        const tunedDistance = INERTIAL_SCROLL_FACTOR * this.#velocity * inertialDistance
-        const destination = Math.round(this.#top + tunedDistance)
+        destination = Math.round(destination / ELEMENT_HEIGHT) * ELEMENT_HEIGHT; // 목적지를 원소 개수만큼 나눈 다음 다시 곱해서 top을 맞춘돠.
+        tunedDistance = destination - this.#top // 계산이 완료된 목적지에서 원래 탑을 빼주면 그 값이 추가적인 거리이다.
         const f = () => {
             if (this.#pressed) {
                 return

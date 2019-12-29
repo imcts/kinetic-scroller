@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.view {
+    position: relative;
+    height: 225px;
+    overflow: hidden;
+    perspective: 500px;
+    transform-style: preserve-3d;
+    border: 1px solid red;
+    box-sizing: border-box
+}
+
+.item {
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    border: 1px solid gray;
+    box-sizing: border-box
+}

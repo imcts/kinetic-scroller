@@ -9,11 +9,13 @@ const MIN_ANIMATION_DISTANCE = 0.5
 const SCROLL_TIME = 325
 const INERTIAL_SCROLL_FACTOR = 0.8
 const INERTIAL_ACCELERATION = 1500
-const HEIGHT_OF_LIST_ITEM = 45
+const HEIGHT_OF_LIST_ITEM = 34
 const HALF_HEIGHT_OF_LIST_ITEM = Math.floor(HEIGHT_OF_LIST_ITEM / 2)
 const COUNT_OF_LIST_ITEM = 7
 const HALF_COUNT_OF_LIST = Math.floor(COUNT_OF_LIST_ITEM / 2)
-const POSITION_OF_ALIGNMENT_Y = Math.floor(HALF_COUNT_OF_LIST - 1) * HEIGHT_OF_LIST_ITEM
+const HALF_COUNT_EXCEPT_CENTER = Math.floor(HALF_COUNT_OF_LIST - 1)
+const DEGREE = 20
+const DISTANCE_OF_Z = 50
 
 const Scroller = class {
     #container
@@ -88,30 +90,72 @@ const Scroller = class {
                 - 위에서 구해진 값은 가운데 블록이 그려져야 할 위치가 된다.
         */
         let additionalPosition = -(top - index * HEIGHT_OF_LIST_ITEM)
+    
+        /**
+            1. 리스트의 높이를 기준으로 정중앙을 구한다.
+            2. 아이템의 높이의 절반만큼 차감하여 렌더링 포지션의 시작지점을 구한다.
+        */
+        const positionAlignY = this.#element.offsetHeight / 2 - HALF_HEIGHT_OF_LIST_ITEM
+        
+        /**
+            1. 인덱스는 마우스가 아이템 높이의 절반만큼 움직일때 증가하기 때문에, 마우스가 추가적으로 움직이는 변위량은 아이템 높이의 절반까지이다. 
+                - 34px의 아이템 높이 기준.
+                - 중앙값은 17px 
+                - -0 ~ 17 ~ 0의 마우스 위치값을 갖는다.
+            2. 현재 움직인 추가적인 거리를 아이템높이의 절반값으로 나누어 얼마만큼 움직였는지 percent를 구한다.
+        */
+        const movedPercent = additionalPosition / HALF_HEIGHT_OF_LIST_ITEM
+        
+        /**
+            1. rotateX의 각도는 정중앙을 기점으로 상수값만큼 위로 아래로 균일하게 증감한다.
+            2. 이 스크롤러는 최소한의 div만으로 스크롤해야 하기 때문에 스크롤시 추가적인 스크롤 값이 필요하다.
+            3. 따라서 마우스의 위치에 따라 계산된 movePercent를 기본으로, 추가해야할 각도를 계산한다.
+            4. 인덱스는 아이템 높이의 절반마다 증가하므로, 추가해야할 각도 또한 2로 나누어준다.
+        */
+        const additionalDegree = -(movedPercent * DEGREE) / 2
+        
+        /**
+            1. 투명도는 1을 기점으로, 아이템의 개수로 나누어서 각 아이템당 얼마만큼의 투명도를 가지게 할 지를 결정짓는다.
+            2. 스크롤시에 오파시티값도 계속 변해야 하므로 추가해야할 값을 계산한다.
+        */
+        const OPACITY = 1
+        const basedOpacity = OPACITY / HALF_COUNT_OF_LIST
+        const additionalOpacity = movedPercent * basedOpacity / 2
+        
+        console.log('additionalOpacity: ', additionalOpacity)
         
         // midest
-        elements[midestIndex].style.transform = `
-            rotateX(${0}deg) 
-            translateY(${POSITION_OF_ALIGNMENT_Y}px)
-            translateY(${additionalPosition}px)
-            translateZ(0px)
+        const center = elements[midestIndex]
+        center.style.transform = ` 
+            translateY(${positionAlignY}px)
+            translateY(${additionalPosition}px) 
+            rotateX(${additionalDegree}deg)
+            translateZ(${DISTANCE_OF_Z}px)
         `
+        center.style.opacity = OPACITY + additionalOpacity
+        
         for (let i = 1; i <= HALF_COUNT_OF_LIST; i++) {
+            const opacity = 1 - i * basedOpacity
+            
             // above side
-            elements[this.getIndex(midestIndex - i, length)].style.transform = `
-                rotateX(${0}deg) 
-                translateY(${POSITION_OF_ALIGNMENT_Y}px) 
+            const above = elements[this.getIndex(midestIndex - i, length)]
+            above.style.transform = `
+                translateY(${positionAlignY}px) 
                 translateY(${additionalPosition - i * HEIGHT_OF_LIST_ITEM}px) 
-                translateZ(0px)
+                rotateX(${DEGREE * i + additionalDegree}deg)
+                translateZ(${DISTANCE_OF_Z}px)
             `
+            above.style.opacity = opacity + additionalOpacity
+            
             // below side
-            const below = this.getIndex(midestIndex + i, length)
-            elements[below].style.transform = `
-                rotateX(${0}deg) 
-                translateY(${POSITION_OF_ALIGNMENT_Y}px) 
-                translateY(${additionalPosition  + i * HEIGHT_OF_LIST_ITEM}px) 
-                translateZ(0px)
+            const below = elements[this.getIndex(midestIndex + i, length)]
+            below.style.transform = `
+                translateY(${positionAlignY}px) 
+                translateY(${additionalPosition  + i * HEIGHT_OF_LIST_ITEM}px)
+                rotateX(-${DEGREE * i - additionalDegree}deg)
+                translateZ(${DISTANCE_OF_Z}px)
             `
+            below.style.opacity = opacity - additionalOpacity
         }
         this.#top = top
     }

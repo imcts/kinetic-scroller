@@ -5,7 +5,7 @@ body {
 
 .view {
     position: relative;
-    height: 270px;
+    height: 330px;
     overflow: hidden;
     perspective: 1200px;
     transform-style: preserve-3d;

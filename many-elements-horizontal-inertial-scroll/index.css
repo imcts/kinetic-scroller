@@ -1,0 +1,39 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    overflow: hidden;
+    /*border: 1px solid red;*/
+}
+
+.view {
+    position: relative;
+    height: 45px;
+    white-space: nowrap;
+    font-size: 0;
+}
+
+.item {
+    display: inline-block;
+    /*padding: 0 5px;*/
+    height: 45px;
+    box-sizing: border-box;
+    line-height: 45px;
+    font-size: 15px;
+}
+
+.item:nth-child(even) {
+    background: blue;
+}
+
+.item:not(:first-child) {
+    margin-left: 4px;
+}

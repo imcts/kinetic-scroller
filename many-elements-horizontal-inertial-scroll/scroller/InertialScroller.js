@@ -106,7 +106,7 @@ const InertialScroller = class {
       if (this.#pressed.isPressed()) {
         return
       }
-      const elapsedTime = Date.now() - this.#lastInteractionTime.time
+      const elapsedTime = Time.now().minus(this.#lastInteractionTime).time
       const exponentialFactor = Math.exp(-elapsedTime / InertialScroller.#SCROLL_TIME)
       const distance = Distance.of(
         inertialDistanceX * exponentialFactor,

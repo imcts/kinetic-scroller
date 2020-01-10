@@ -5,7 +5,7 @@ const ScrollRenderer = class {
   }
   
   _render (coordinate) {
-    throw new TypeError(MESSAGE.ERROR.OVERRIDE)
+    throw new TypeError('It must be overridden.')
   }
   
   getInertialDistance (velocity) {
@@ -13,6 +13,6 @@ const ScrollRenderer = class {
   }
   
   _getInertialDistance (velocity) {
-    throw new TypeError(MESSAGE.ERROR.OVERRIDE)
+    throw new TypeError('It must be overridden.')
   }
 }

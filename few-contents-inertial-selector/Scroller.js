@@ -136,17 +136,24 @@ const Scroller = class {
 //        console.log(index, additionalDegree)
         
         /**
-            기본적인 투명도는 1이지만, 정 가운데는 1이고 양쪽 맨 끝은 0이 되어야 한다. 
-            1. basedOpacity: 기본적인투명도 / 전체목록의 개수 / 2를 하여 얼마만큼 증감 시키면 될지 계산한다. 
-            2. movedPercent에 
+            additionalOpacity는 마우스의 움직임에 따라 좀 더 부드럽게 opacity가 조절될 수 있도록 하는 값이다.
+            만약 이 값이 없다면 index의 증가치에 따라 단순히 opacity값들이 덜컥 거리며 변경되게 된다. 
+            내가 원하는것은 마우스의 위치에 따라 opacity가 조금씩 연해지기를 바란다. 
             
-            명도 또한 위의 추가적인 각도와 마찬가지의 이유로 계산한다. 인덱스의 증가가 언제 이루어지는지 확인하자.
-            1. 투명도는 1을 기점으로, 아이템의 개수로 나누어서 각 아이템당 얼마만큼의 투명도를 가지게 할 지를 결정짓는다.
-            2. 스크롤시에 오파시티값도 계속 변해야 하므로 추가해야할 값을 계산한다.
+            
+            0. 기본적인 투명도는 1이지만, 정 가운데는 1이고 양쪽 맨 끝은 0이 되어야 한다. 
+            1. basedOpacity: 기본적인투명도 / 전체목록의 개수 / 2를 하여 얼마만큼 증감 시키면 될지 계산한다. 
+            2. movedPercent에 증가시켜야할 basedOpacity를 계산한다. 마지막으로 인덱스는 엘리먼트높이의 절반마다 증가하므로 2로 나누어준다.
+            3. 정가운데 위치해야하는 엘리먼트는 index가 변경되기 전까지 위로 스크롤 되든 아래로 스크롤 되든 투명도가 감소되어야 한다. 
+               따라서, additionalOpacity는 스크롤 방향에 따라 양수와 음수가 나올 수 있으므로 절대값으로 만들어서 차감한다.
+            4. 위로 스크롤시 additionalOpacity는 음수가 나오므로, 위쪽에 위치한 엘리먼트들은 점점 투명해져야하므로 더해주고, 
+               아래쪽의 엘리먼트들은 진해져야 하므로 차감한다.
         */
         const OPACITY = 1
         const basedOpacity = OPACITY / HALF_COUNT_OF_LIST
         const additionalOpacity = movedPercent * basedOpacity / 2
+//        console.log(additionalOpacity)
+        
         
         // midest
         const center = elements[midestIndex]
@@ -156,7 +163,7 @@ const Scroller = class {
             rotateX(${additionalDegree}deg)
             translateZ(${DISTANCE_OF_Z}px)
         `
-        center.style.opacity = OPACITY + additionalOpacity
+        center.style.opacity = OPACITY - Math.abs(additionalOpacity)
         
         for (let i = 1; i <= HALF_COUNT_OF_LIST; i++) {
             const opacity = OPACITY - i * basedOpacity

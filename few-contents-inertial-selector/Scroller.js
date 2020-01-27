@@ -90,14 +90,17 @@ const Scroller = class {
             여기서의 midestIndex는 몇번째 엘리먼트가 정 중앙에 위치해야 하는가 입니다.
         */
         const midestIndex = this.getIndex(index, length)
-        console.log(index)
         
         /**
-            1. top의 위치는 아이템의 높이가 누적된 값이다.
-            2. index는 아이템의 높이가 누적된 개수이다. 
-            3. top의 변위량을 구한다.
-                - top(아이템의 높이가 누적된것 + 마우스가 추가로 움직인 거리) - (index * 아이템의 높이)(top에 누적된 아이템의 높이개수)
-                - 위에서 구해진 값은 가운데 블록이 그려져야 할 위치가 된다.
+            additionalPosition는 블록이 이동하는 위치값이다. 
+            1. positionAlignY으로 먼저 정중앙에 렌더링한다. 
+            2. 그 후 additionalPosition를 사용해서 중앙에 있는 엘리먼트가 이동하게 만드는 방식이다.
+            3. index는 스크롤이 엘리먼트의 높이의 절반만큼 증가할때마다 증가한다. 
+            4. top(아이템의 높이가 누적된것 + 마우스가 추가로 움직인 거리)에서 (index * 아이템의 높이)를 차감하면 정중앙에 위치해야할 엘리먼트의 위치가 계산된다.
+            5. 스크롤을 아래로 진행하여, index가 0이고 top이 -10인경우를 생각해보면 처음에 positionAlignY를 사용해서 정중앙에 렌더링 했을 것이다.
+            6. 그 후 (-10 - 0)을 했기 때문에 -10위치에 0번째 엘리먼트가 그려진다. 
+            7. 하지만 엘리먼트 높이의 절반만큼 스크롤이 아래로 진행된 경우 index가 증가하게 되어 -1이 된다.
+            9. index가 변경되면 -1번째 엘리먼트가 다시 정중앙에 그려지게 되고, 그 후 현재 위치값을 additionalPosition만큼 이동시키게 되는 것이다.
         */
         let additionalPosition = -(top - index * HEIGHT_OF_LIST_ITEM)
     
@@ -115,24 +118,35 @@ const Scroller = class {
             2. 현재 움직인 추가적인 거리를 아이템높이의 절반값으로 나누어 얼마만큼 움직였는지 percent를 구한다.
         */
         const movedPercent = additionalPosition / HALF_HEIGHT_OF_LIST_ITEM
+//        console.log(movedPercent)
         
         /**
-            1. rotateX의 각도는 정중앙을 기점으로 상수값만큼 위로 아래로 균일하게 증감한다.
-            2. 이 스크롤러는 최소한의 div만으로 스크롤해야 하기 때문에 스크롤시 추가적인 스크롤 값이 필요하다.
-            3. 따라서 마우스의 위치에 따라 계산된 movePercent를 기본으로, 추가해야할 각도를 계산한다.
-            4. 인덱스는 아이템 높이의 절반마다 증가하므로, 추가해야할 각도 또한 2로 나누어준다.
+            additionalDegree는 정중앙 엘리먼트를 기준으로 x축으로 얼마만큼 회전시켜서 롤링하게 만들어줄 것인가이다. 
+            1. rotateX의 각도(DEGREE)는 정중앙(0deg)을 기점으로 상수값만큼 위로 아래로 균일하게 증감한다.
+            2. 0번째 엘리먼트가 아래로 스크롤될때 movedPercent에 DEGREE를 곱하여 몇 퍼센트를 이동했는지 구할 수 있다.
+            3. 그런데, 우리의 스크롤러는 엘리먼트의 높이값의 절반만큼 증가할때마다 인덱스가 증가하는 방식이다.
+            4. 아래로 스크롤하여 인덱스가 증가하여 -1이 된 경우, positionAlignY으로 정중앙에 해당 엘리먼트를 다시 렌더링한다.
+            5. 그 후 얼마만큼 기울여 줄 것인지를 결정해야 한다.
+            6. 정확히 index는 엘리먼트 높이값의 절반마다 증가하므로 우리도 DEGREE(20기준) 0도부터 -10도만큼 엘리먼트의 이동에 따라 계산해주어야 한다.
+            7. 즉 index가 0일때 스크롤을 아래로 계속 진행할때 -10도까지 돌리다가, index가 변경되어 -1번째 엘리먼트가 정중앙에 그려지면,
+               -1번째 엘리먼트의 시작 각도는 10도만큼 기울어져 있어야 한다는 이야기이다. 그 후 계속 스크롤이 진행되면 기울인 각도는 점점 감소하여 0이 되고 -10이 되며 
+               다시 index가 변경될 것이다.
         */
         const additionalDegree = -(movedPercent * DEGREE) / 2
+//        console.log(index, additionalDegree)
         
         /**
+            기본적인 투명도는 1이지만, 정 가운데는 1이고 양쪽 맨 끝은 0이 되어야 한다. 
+            1. basedOpacity: 기본적인투명도 / 전체목록의 개수 / 2를 하여 얼마만큼 증감 시키면 될지 계산한다. 
+            2. movedPercent에 
+            
+            명도 또한 위의 추가적인 각도와 마찬가지의 이유로 계산한다. 인덱스의 증가가 언제 이루어지는지 확인하자.
             1. 투명도는 1을 기점으로, 아이템의 개수로 나누어서 각 아이템당 얼마만큼의 투명도를 가지게 할 지를 결정짓는다.
             2. 스크롤시에 오파시티값도 계속 변해야 하므로 추가해야할 값을 계산한다.
         */
         const OPACITY = 1
         const basedOpacity = OPACITY / HALF_COUNT_OF_LIST
         const additionalOpacity = movedPercent * basedOpacity / 2
-        
-//        console.log('additionalOpacity: ', additionalOpacity)
         
         // midest
         const center = elements[midestIndex]
@@ -145,7 +159,7 @@ const Scroller = class {
         center.style.opacity = OPACITY + additionalOpacity
         
         for (let i = 1; i <= HALF_COUNT_OF_LIST; i++) {
-            const opacity = 1 - i * basedOpacity
+            const opacity = OPACITY - i * basedOpacity
             
             // above side
             const above = elements[this.getIndex(midestIndex - i, length)]

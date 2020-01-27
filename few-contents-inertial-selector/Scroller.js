@@ -5,10 +5,10 @@ const DEFAULT_VELOCITY = 0
 const DEFAULT_TRACKER = null
 const TRACKING_TIME = 50
 const MIN_VELOCITY = 0.3
-const MIN_ANIMATION_DISTANCE = 0.5
+const MIN_ANIMATION_DISTANCE = 0.3
 const SCROLL_TIME = 325
 const INERTIAL_SCROLL_FACTOR = 0.8
-const INERTIAL_ACCELERATION = 1500
+const INERTIAL_ACCELERATION = 1000
 const HEIGHT_OF_LIST_ITEM = 34
 const HALF_HEIGHT_OF_LIST_ITEM = Math.floor(HEIGHT_OF_LIST_ITEM / 2)
 const COUNT_OF_LIST_ITEM = 9
@@ -73,14 +73,24 @@ const Scroller = class {
         const elements = this.#elements
         const length = COUNT_OF_LIST_ITEM
         /**
-            1. Top의 위치를 기반으로 기준이 되는 엘리먼트를 찾는다.
-            2. index는 top의 변위가 엘리먼트 높이 / 2만큼 증가했을때 변화한다.
+            여기서의 index값은 시작부터 몇칸 갔는가 입니다.
+            0. 원래 인덱스를 구할때는 소수점제거(높이 / 높이)로 구할 수 있다.
+            1. 그러나 우리가 구현하고자 하는 스크롤러는 절반이 증가하면 인덱스가 1 증가해야 한다.
+            2. 그렇기 때문에 원소의 높이 / 2 + top의 결과값에 원래 엘리먼트의 높이로 나누어준다.
+            3. Top의 위치를 기반으로 기준이 되는 엘리먼트를 찾는다.
+            4. index는 top의 변위가 엘리먼트 높이 / 2만큼 증가했을때 변화한다.
                 - index는 -5 -4 -3 -2 -1 0 1 2 3 4 5.. 등으로 증감 또는 가감한다.
         */
         const index = Math.floor((top + HEIGHT_OF_LIST_ITEM / 2) / HEIGHT_OF_LIST_ITEM)
+        
+        
 
         // element index of center
+        /*
+            여기서의 midestIndex는 몇번째 엘리먼트가 정 중앙에 위치해야 하는가 입니다.
+        */
         const midestIndex = this.getIndex(index, length)
+        console.log(index)
         
         /**
             1. top의 위치는 아이템의 높이가 누적된 값이다.
@@ -122,7 +132,7 @@ const Scroller = class {
         const basedOpacity = OPACITY / HALF_COUNT_OF_LIST
         const additionalOpacity = movedPercent * basedOpacity / 2
         
-        console.log('additionalOpacity: ', additionalOpacity)
+//        console.log('additionalOpacity: ', additionalOpacity)
         
         // midest
         const center = elements[midestIndex]
@@ -158,6 +168,34 @@ const Scroller = class {
             below.style.opacity = opacity - additionalOpacity
         }
         this.#top = top
+    }
+    
+    /**
+    
+        -1 => 8번째 엘리먼트
+        -2 => 7번째 엘리먼트
+        -3 => 6번째 엘리먼트
+        전체값 + -1 => 8
+        전체값 + -2 => 7
+        전체값 + -3 => 6
+        
+        -93을 9로 나머지연산하면 -3 
+        다시 호출하면서 -3을 전달하면 6이 나오게 하면 됨. 
+        
+        즉, 0보다 작은경우에는 전체개수 + i를 하게 한다. 
+
+        1. 인덱스가 음수인 경우 해당 위치의 엘리먼트를 순차적으로 찾기 위한 메소드입니다.
+        2. length가 5이고 i가 -5인경우 실제로는 0번째 값을 반환 받아야 합니다. (순환식)
+        3. -5 % 5는 0이므로 전체 길이인 5에서 -0을 더하여 다시 한번 재귀호출 하여 5 % 5의 결과인 0을 반환 받습니다.
+    */
+    getIndex (i, length) {
+        if (i >= length) {
+            return i % length
+        }
+        if (i < 0) {
+            return this.getIndex(length + (i % length), length)
+        }
+        return i
     }
     
     setElements () {
@@ -226,21 +264,6 @@ const Scroller = class {
     }
 
     /**
-        1. 인덱스가 음수인 경우 해당 위치의 엘리먼트를 순차적으로 찾기 위한 메소드입니다.
-        2. length가 5이고 i가 -5인경우 실제로는 0번째 값을 반환 받아야 합니다. (순환식)
-        3. -5 % 5는 0이므로 전체 길이인 5에서 -0을 더하여 다시 한번 재귀호출 하여 5 % 5의 결과인 0을 반환 받습니다.
-    */
-    getIndex (i, length) {
-        if (i >= length) {
-            return i % length
-        }
-        if (i < 0) {
-            return this.getIndex(length + (i % length), length)
-        }
-        return i
-    }
-
-    /**
         1. 터치 트랙킹을 종료 합니다.
         2. 최종 속력이 MIN_VELOCITY 보다 낮은 경우 관성 스크롤을 사용하지 않습니다.
     */
@@ -279,6 +302,9 @@ const Scroller = class {
             destination += tunedDistance // 목적지 + 추가적인 거리를 넣는다.
         }
         destination = Math.round(destination / HEIGHT_OF_LIST_ITEM) * HEIGHT_OF_LIST_ITEM // 목적지를 원소 개수만큼 나눈 다음 다시 곱해서 top을 맞춘돠.
+        
+            
+            
         tunedDistance = destination - this.#top // 계산이 완료된 목적지에서 원래 탑을 빼주면 그 값이 추가적인 거리이다.
         const f = () => {
             if (this.#pressed) {

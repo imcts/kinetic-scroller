@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f203666-3dd5-4617-808d-e8210c64c16b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js" beforeDir="false" afterPath="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js" beforeDir="false" afterPath="$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/few-contents-inertial-selector/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/few-contents-inertial-selector/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,40 +31,30 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/renderer/ScrollRenderer.js">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
-              <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
-              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+              <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/vo/Time.js">
+        <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="240">
+              <caret line="16" column="23" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/renderer/HorizontalRenderer.js">
+        <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="60" lean-forward="true" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="108" column="74" selection-start-line="108" selection-start-column="74" selection-end-line="108" selection-end-column="74" />
+            <state relative-caret-position="135">
+              <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -104,7 +96,6 @@
         <option value="$PROJECT_DIR$/inertial-scroll/Scroller.js" />
         <option value="$PROJECT_DIR$/stop-inertial-scroller/Scroller.js" />
         <option value="$PROJECT_DIR$/few-contents-inertial-selector/index.css" />
-        <option value="$PROJECT_DIR$/few-contents-inertial-selector/index.html" />
         <option value="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/index.css" />
         <option value="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/Scroller.js" />
         <option value="$PROJECT_DIR$/scroller-oop/assertion/Assertion.js" />
@@ -122,6 +113,8 @@
         <option value="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/renderer/ScrollRenderer.js" />
         <option value="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/vo/Time.js" />
         <option value="$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js" />
+        <option value="$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js" />
+        <option value="$PROJECT_DIR$/few-contents-inertial-selector/index.html" />
       </list>
     </option>
   </component>
@@ -131,18 +124,18 @@
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="413" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="942" />
+    <option name="height" value="944" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,25 +146,12 @@
             <path>
               <item name="kinetic-scroller" type="b2602c69:ProjectViewProjectNode" />
               <item name="kinetic-scroller" type="462c0819:PsiDirectoryNode" />
-              <item name="many-elements-horizontal-inertial-scroll" type="462c0819:PsiDirectoryNode" />
+              <item name="few-contents-inertial-selector" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="kinetic-scroller" type="b2602c69:ProjectViewProjectNode" />
               <item name="kinetic-scroller" type="462c0819:PsiDirectoryNode" />
               <item name="many-elements-horizontal-inertial-scroll" type="462c0819:PsiDirectoryNode" />
-              <item name="renderer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kinetic-scroller" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kinetic-scroller" type="462c0819:PsiDirectoryNode" />
-              <item name="many-elements-horizontal-inertial-scroll" type="462c0819:PsiDirectoryNode" />
-              <item name="scroller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="kinetic-scroller" type="b2602c69:ProjectViewProjectNode" />
-              <item name="kinetic-scroller" type="462c0819:PsiDirectoryNode" />
-              <item name="many-elements-horizontal-inertial-scroll" type="462c0819:PsiDirectoryNode" />
-              <item name="vo" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -245,6 +225,13 @@
       <workItem from="1578299010934" duration="152000" />
       <workItem from="1578299333262" duration="15623000" />
       <workItem from="1578583998198" duration="4280000" />
+      <workItem from="1580199190773" duration="18586000" />
+      <workItem from="1580521682599" duration="1396000" />
+      <workItem from="1580562750936" duration="1295000" />
+      <workItem from="1580571876500" duration="947000" />
+      <workItem from="1580613746334" duration="8000" />
+      <workItem from="1581472649505" duration="17000" />
+      <workItem from="1583039837128" duration="149000" />
     </task>
     <task id="LOCAL-00001" summary="horizontal scroller made.">
       <created>1578131627616</created>
@@ -278,13 +265,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46808000" />
+    <option name="totallyTimeSpent" value="69206000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1331" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="944" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12827641" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15079366" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -335,13 +322,6 @@
     <entry file="file://$PROJECT_DIR$/stop-inertial-scroller/index.html" />
     <entry file="file://$PROJECT_DIR$/inertial-scroll/Scroller.js" />
     <entry file="file://$PROJECT_DIR$/stop-inertial-scroller/Scroller.js" />
-    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="6" lean-forward="true" selection-start-column="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/few-contents-inertial-scroll/Scroller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -398,20 +378,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="177" column="40" lean-forward="true" selection-start-line="177" selection-start-column="40" selection-end-line="177" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/few-contents-sticky-inertial-scroll/Scroller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="602">
@@ -419,24 +385,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scroller-oop/assertion/Assertion.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="12" lean-forward="true" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/scroller-oop/assertion/Assertion.js" />
     <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="7" lean-forward="true" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/Scroller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="81" column="7" lean-forward="true" selection-start-line="81" selection-start-column="7" selection-end-line="81" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -482,10 +435,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="86" column="2" lean-forward="true" selection-start-line="86" selection-start-column="2" selection-end-line="86" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/renderer/HorizontalRenderer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="60" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/vo/Time.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
@@ -497,17 +464,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/renderer/HorizontalRenderer.js">
+    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/Scroller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="60" lean-forward="true" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
+        <state relative-caret-position="444">
+          <caret line="155" column="4" lean-forward="true" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/many-elements-horizontal-inertial-scroll/scroller/InertialScroller.js">
+    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="108" column="74" selection-start-line="108" selection-start-column="74" selection-end-line="108" selection-end-column="74" />
+        <state relative-caret-position="225">
+          <caret line="15" column="21" lean-forward="true" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/few-contents-inertial-selector/Scroller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
         </state>
       </provider>
     </entry>

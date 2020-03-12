@@ -11,9 +11,8 @@ const INERTIAL_SCROLL_FACTOR = 0.8
 const INERTIAL_ACCELERATION = 1000
 const HEIGHT_OF_LIST_ITEM = 34
 const HALF_HEIGHT_OF_LIST_ITEM = Math.floor(HEIGHT_OF_LIST_ITEM / 2)
-const COUNT_OF_LIST_ITEM = 9
+const COUNT_OF_LIST_ITEM = 7
 const HALF_COUNT_OF_LIST = Math.floor(COUNT_OF_LIST_ITEM / 2)
-const HALF_COUNT_EXCEPT_CENTER = Math.floor(HALF_COUNT_OF_LIST - 1)
 const DEGREE = 20
 const DISTANCE_OF_Z = 50
 
@@ -318,14 +317,11 @@ const Scroller = class {
     animateInertialScroll () {
         let destination = this.#top // 기본적으로 목적지는 탑이다.
         let tunedDistance // 추가적인 거리는 아직 미정이다.
-        if (Math.abs(this.#velocity) > MIN_VELOCITY) { // 애니메이션이 필요한 경우라면
-            tunedDistance = INERTIAL_SCROLL_FACTOR * this.#velocity * INERTIAL_ACCELERATION
-            destination += tunedDistance // 목적지 + 추가적인 거리를 넣는다.
-        }
+        // if (Math.abs(this.#velocity) > MIN_VELOCITY) { // 애니메이션이 필요한 경우라면
+        //     tunedDistance = INERTIAL_SCROLL_FACTOR * this.#velocity * INERTIAL_ACCELERATION
+        //     destination += tunedDistance // 목적지 + 추가적인 거리를 넣는다.
+        // }
         destination = Math.round(destination / HEIGHT_OF_LIST_ITEM) * HEIGHT_OF_LIST_ITEM // 목적지를 원소 개수만큼 나눈 다음 다시 곱해서 top을 맞춘돠.
-        
-            
-            
         tunedDistance = destination - this.#top // 계산이 완료된 목적지에서 원래 탑을 빼주면 그 값이 추가적인 거리이다.
         const f = () => {
             if (this.#pressed) {

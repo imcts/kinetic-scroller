@@ -1,8 +1,14 @@
+import Assertion from '../../../../util/assertion/Assertion'
+import Distance from './Distance'
+import Time from './Time'
+
 const Velocity = class {
   #x
   #y
   
   static of (x, y) {
+    Assertion.assertNumber(x)
+    Assertion.assertNumber(y)
     return new Velocity(x, y)
   }
   
@@ -12,6 +18,8 @@ const Velocity = class {
   }
   
   calculateVelocity (distance, elapsed) {
+    Assertion.assertInstanceOf(distance, Distance)
+    Assertion.assertInstanceOf(elapsed, Time)
     const {time} = elapsed
     return Velocity.of(
       distance.x / time,
@@ -33,3 +41,5 @@ const Velocity = class {
 }
 
 Velocity.DEFAULT = Velocity.of(0, 0)
+
+export default Velocity

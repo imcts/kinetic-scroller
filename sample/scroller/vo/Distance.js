@@ -1,3 +1,5 @@
+import Assertion from '../../../../util/assertion/Assertion'
+
 const Distance = class {
   #x
   #y
@@ -6,7 +8,13 @@ const Distance = class {
     return Distance.of(x, 0)
   }
   
+  static y (y) {
+    return Distance.of(0, y)
+  }
+  
   static of (x, y) {
+    Assertion.assertNumber(x)
+    Assertion.assertNumber(y)
     return new Distance(x, y)
   }
   
@@ -28,4 +36,4 @@ const Distance = class {
   }
 }
 
-Distance.DEFAULT = Distance.of(0, 0)
+export default Distance

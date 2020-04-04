@@ -1,7 +1,10 @@
+import Assertion from '../../../../util/assertion/Assertion'
+
 const Time = class {
   #time
   
   static from (time) {
+    Assertion.assertNumber(time)
     return new Time(time)
   }
   
@@ -14,6 +17,7 @@ const Time = class {
   }
   
   minus (time) {
+    Assertion.assertInstanceOf(time, Time)
     return Time.from(this.#time - time.time)
   }
   
@@ -21,3 +25,5 @@ const Time = class {
     return this.#time
   }
 }
+
+export default Time

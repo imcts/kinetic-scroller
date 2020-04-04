@@ -17,3 +17,5 @@ const Pressure = class {
     return this.#pressed
   }
 }
+
+export default Pressure
